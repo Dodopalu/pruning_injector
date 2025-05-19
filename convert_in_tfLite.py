@@ -28,7 +28,6 @@ def convert_to_tfLite(PATH, OUTPUT_DIR):
     converter.experimental_new_converter = True
     converter.experimental_enable_resource_variables = True
     converter.optimizations = [
-        tf.lite.Optimize.DEFAULT,
         tf.lite.Optimize.EXPERIMENTAL_SPARSITY
                             ]
 

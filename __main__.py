@@ -22,10 +22,10 @@ STRUCTURAL_2_4 = structural_pruning(BASE_MODEL, OUTPUT_DIR, "structural_2_4", (2
 STRUCTURAL_5_7 = structural_pruning(BASE_MODEL, OUTPUT_DIR, "structural_5_7", (5, 7))
 
 
-MAGNITUDE_50 = convert_to_tfLite(MAGNITUDE_50, OUTPUT_DIR)
-TF_MAGNITUDE_80 = convert_to_tfLite(MAGNITUDE_80, OUTPUT_DIR)
-TF_STRUCTURAL_2_4 = convert_to_tfLite(STRUCTURAL_2_4, OUTPUT_DIR)
-TF_STRUCTURAL_5_7 = convert_to_tfLite(STRUCTURAL_5_7, OUTPUT_DIR)
+#MAGNITUDE_50 = convert_to_tfLite(MAGNITUDE_50, OUTPUT_DIR)
+#TF_MAGNITUDE_80 = convert_to_tfLite(MAGNITUDE_80, OUTPUT_DIR)
+#TF_STRUCTURAL_2_4 = convert_to_tfLite(STRUCTURAL_2_4, OUTPUT_DIR)
+#TF_STRUCTURAL_5_7 = convert_to_tfLite(STRUCTURAL_5_7, OUTPUT_DIR)
 
 
 #test(TF_MAGNITUDE_80, OUTPUT_DIR)

@@ -1,5 +1,5 @@
 # check and configure GPU 
-
+import time
 import tensorflow as tf
 
 physical_devices = tf.config.list_physical_devices('GPU')
@@ -18,8 +18,7 @@ from datasets.loaderCIFAR10 import load
 """
 
 # load model
-#PATH = "/Users/domenicopalumbo/keras_weight_injector_data/models/CIFAR10/ResNet20_pruned_50pct_20250514_185607.tflite"
-PATH = "/Users/domenicopalumbo/keras_weight_injector_data/models/CIFAR10/ResNet20.keras"
+PATH = "models/ResNet20.keras"
 
 
 model = keras.models.load_model(PATH)
@@ -31,32 +30,40 @@ model.compile(
 
 # load dataset 
 (train_dataset, test_dataset) = load()
-
 test_dataset = test_dataset.batch(32)
 
 
+# Precaricamento dati nella GPU
+gpu_dataset = []
+for img, labels in test_dataset:
+    x = img # take input not labels
+    x_gpu = tf.convert_to_tensor(x, dtype=tf.float32)
+    if physical_devices:
+        with tf.device('/GPU:0'):
+            x_gpu = tf.identity(x_gpu)
+    gpu_dataset.append(x_gpu)
 
-# warm-up (firts inference is generally slower)
-for x in test_dataset.take(1):
-    x = x[0]
-    model.predict(x, verbose=0)
+#gpu_dataset = test_dataset.map(lambda x, y: x) # not to send to GPU
 
+# Warm-up 
+for i, batch in enumerate(gpu_dataset):
+    if i < 10:
+        _ = model.predict(batch, verbose=0)
 
-#=================time misuration==================#
-import time
+# Sync
+if physical_devices:
+    _ = tf.random.normal([1])
 
 print("Starting 100 inferences...")
 
-# Misura il tempo totale per tutte le 100 inferenze
 start_time = time.time()
 
-for batch in test_dataset:
-    batch = batch[0]
+for batch in gpu_dataset:
     _ = model.predict(batch, verbose=0)
     
 end_time = time.time()
 
-# Calcola e mostra il tempo totale
+# results
 total_time = end_time - start_time
 print(f"\n===== RESULT =====")
 print(f"Total time: {total_time:.4f} s")
