@@ -66,6 +66,7 @@ def calibration():
         yield [tf.constant(batch[0])]
 
 converter.convert()
+converter.summary()
 
 # Save the model to the disk 
 converter.save(output_saved_model_dir="./models_tensorRT")
