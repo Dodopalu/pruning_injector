@@ -59,7 +59,7 @@ def save_model_tensorRT(model_path : str, output_dir : str) -> str :
         for batch in dataset.take(10):
             yield [tf.constant(batch[0])]
 
-    converter.convert(calibration_input_fn=calibration)
+    converter.convert()
 
     # Save the model to the disk 
     converter.save(output_saved_model_dir=OUTPUT_DIR)
