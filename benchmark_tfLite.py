@@ -11,7 +11,7 @@ else:
     print("ERROR: No GPU available, using CPU instead.")
 
 from tensorflow import keras
-from datasets.loaderCIFAR10 import load
+from loaderCIFAR10 import load
 
 """
 100 inferenze su batch di 32 elementi con modello TFLite

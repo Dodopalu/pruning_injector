@@ -1,5 +1,5 @@
 from tensorflow import keras
-from datasets.loaderCIFAR10 import load
+from loaderCIFAR10 import load
 import numpy as np
 import tensorflow as tf
 import tensorflow_model_optimization as tfmot

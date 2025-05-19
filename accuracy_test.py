@@ -1,4 +1,4 @@
-from datasets.loaderCIFAR10 import load
+from loaderCIFAR10 import load
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np

@@ -11,7 +11,7 @@ else:
 
 
 from tensorflow import keras
-from datasets.loaderCIFAR10 import load
+from loaderCIFAR10 import load
 
 """
 100 inferences on a 32 batch dataset
