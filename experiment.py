@@ -14,7 +14,7 @@ else:
     print("ERROR: No GPU available, using CPU instead.")
 
 
-def load() -> tuple[tf.data.Dataset, tf.data.Dataset]:
+def load():
 
     (train_images, train_labels), (test_images, test_labels) = keras.datasets.cifar10.load_data()
 
