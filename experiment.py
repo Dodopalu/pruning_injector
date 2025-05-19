@@ -48,7 +48,7 @@ def save_model_tensorRT(model_path : str, output_dir : str) -> str :
     model.save("saved_model")
 
     converter = trt.TrtGraphConverterV2(
-        input_saved_model_dir="./models",
+        input_saved_model_dir="./models/saved_model",
         precision_mode=trt.TrtPrecisionMode.FP32
         )
     
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     # base model
     path = save_model_tensorRT(BASE_MODEL, OUTPUT_DIR)
-    inference_test(path)
+    #inference_test(path)
 
     # sparse pruning 50%
     #path = save_model_tensorRT(MAGNITUDE_50, OUTPUT_DIR)
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     # structural pruning 2-4
     path = save_model_tensorRT(STRUCTURAL_2_4, OUTPUT_DIR)
-    inference_test(path)
+    #inference_test(path)
 
     # structural pruning 5-7
     #path = save_model_tensorRT(STRUCTURAL_5_7, OUTPUT_DIR)
