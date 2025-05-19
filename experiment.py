@@ -1,12 +1,10 @@
 from pruning_magnitude import sparse_pruning
 from pruning_structural import structural_pruning
-from datasets.loaderCIFAR10 import load
 from accuracy_test import accuracy
 import time
 import tensorflow as tf
 import keras
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
-#10611353
 
 physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
