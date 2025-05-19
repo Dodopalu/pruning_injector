@@ -19,7 +19,9 @@ test_input = np.random.random((128, 32))
 test_target = np.random.random((128, 1))
 model.fit(test_input, test_target)
 
-model.save("my_model")
+model.save("my_model.keras")
+md = keras.models.load_model("my_model.keras")
+
 
 
 converter = trt.TrtGraphConverterV2(
