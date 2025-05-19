@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
 
-path = "./models/CIFAR10/googlenet/GoogLeNet.keras"
+path = "./models/flatten_Vgg11_bn.keras"
 model = tf.keras.models.load_model(path)
 model.save("my_model")
 
