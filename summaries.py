@@ -1,5 +1,5 @@
-import tensorflow as tf
+import keras
 
 path = "./models/flatten_Vgg11_bn.keras"
-model = tf.keras.models.load_model(path)
+model = keras.models.load_model(path)
 model.summary()
