@@ -5,7 +5,7 @@ from tensorflow import keras
 import tensorflow as tf
 
 # to be loaded 
-def load() -> tuple[tf.data.Dataset, tf.data.Dataset]:
+def load():
 
     (train_images, train_labels), (test_images, test_labels) = keras.datasets.cifar10.load_data()
 
