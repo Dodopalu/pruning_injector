@@ -1,3 +1,4 @@
+'''
 from pruning_magnitude import sparse_pruning
 from pruning_structural import structural_pruning
 from benchmark_tfLite import test
@@ -30,3 +31,6 @@ STRUCTURAL_5_7 = structural_pruning(BASE_MODEL, OUTPUT_DIR, "structural_5_7", (5
 
 #test(TF_MAGNITUDE_80, OUTPUT_DIR)
 #test(TF_STRUCTURAL_5_7, OUTPUT_DIR)
+
+'''
+pass

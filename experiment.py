@@ -1,5 +1,5 @@
-from pruning_magnitude import sparse_pruning
-from pruning_structural import structural_pruning
+#from pruning_magnitude import sparse_pruning
+#from pruning_structural import structural_pruning
 from accuracy_test import accuracy
 import time
 import tensorflow as tf
