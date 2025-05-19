@@ -44,6 +44,8 @@ def load():
 
 def save_model_tensorRT(model_path : str, output_dir : str) -> str :
 
+    model = tf.keras.models.load_model(model_path)
+    model.save("saved_model")
 
     converter = trt.TrtGraphConverterV2(
         input_saved_model_dir="./models",
