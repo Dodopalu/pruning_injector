@@ -113,8 +113,8 @@ if __name__ == "__main__":
     #inference_test(path)
 
     # structural pruning 2-4
-    #path = save_model_tensorRT(STRUCTURAL_2_4, OUTPUT_DIR)
-    #inference_test(path)
+    path = save_model_tensorRT(STRUCTURAL_2_4, OUTPUT_DIR)
+    inference_test(path)
 
     # structural pruning 5-7
     #path = save_model_tensorRT(STRUCTURAL_5_7, OUTPUT_DIR)
