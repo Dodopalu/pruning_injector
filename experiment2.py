@@ -42,9 +42,15 @@ def load():
     return train_dataser, validation_dataset
 
 
+model = tf.keras.models.load_model(
+    filepath="./models/ResNet20.keras",
+    custom_objects={},
+    compile=False
+    )
+model.save(
+    "./models/saved_model"
+    )
 
-model = tf.keras.models.load_model("./models/ResNet20.keras")
-model.save("./models/saved_model")
 
 converter = trt.TrtGraphConverterV2(
     input_saved_model_dir="./models/saved_model",
@@ -62,4 +68,4 @@ def calibration():
 converter.convert()
 
 # Save the model to the disk 
-converter.save(output_saved_model_dir=OUTPUT_DIR)
+converter.save(output_saved_model_dir="./models_tensorRT")
