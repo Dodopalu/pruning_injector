@@ -1,5 +1,5 @@
 import tensorflow as tf
 
-path = "./models/CIFAR10/googlenet/GoogLeNet.keras"
+path = "./models/flatten_Vgg11_bn.keras"
 model = tf.keras.models.load_model(path)
 model.summary()
