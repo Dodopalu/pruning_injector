@@ -48,7 +48,7 @@ def save_model_tensorRT(model_path : str, output_dir : str) -> str :
         )
 
     converter = trt.TrtGraphConverterV2(
-        input_saved_model_dir=BASE_MODEL,
+        input_saved_model_dir="models",
         conversion_params=conversion_params
         )
 
