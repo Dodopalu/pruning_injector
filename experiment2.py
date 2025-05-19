@@ -3,7 +3,7 @@
 from accuracy_test import accuracy
 import time
 import tensorflow as tf
-import keras
+from tensorflow import keras
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
 
 physical_devices = tf.config.list_physical_devices('GPU')
