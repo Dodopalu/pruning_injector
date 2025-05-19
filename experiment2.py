@@ -43,7 +43,7 @@ def load():
 
 
 model = tf.keras.models.load_model(
-    filepath="./models/ResNet20.keras",
+    filepath="./models/CIFAR10/resnet/ResNet20.keras",
     custom_objects={},
     compile=False
     )
