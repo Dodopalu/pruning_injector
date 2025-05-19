@@ -49,12 +49,8 @@ model = tf.keras.models.load_model(
     )
 model.save(
     "./models/saved_model",
-    save_format='tf',
-    include_optimizer=False,
-    options=tf.saved_model.SaveOptions(
-        namespace_whitelist=['__inference']
     )
-)
+
 
 
 converter = trt.TrtGraphConverterV2(
