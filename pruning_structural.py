@@ -1,3 +1,4 @@
+'''
 from tensorflow import keras
 from loaderCIFAR10 import load
 import numpy as np
@@ -94,4 +95,5 @@ if __name__ == "__main__":
     #structural_pruning(PATH, OUTPUT_DIR, "structural_2_4", (2, 4))
 
     structural_pruning(PATH, OUTPUT_DIR, "structural_5_7", (5, 7))
-
+'''
+pass

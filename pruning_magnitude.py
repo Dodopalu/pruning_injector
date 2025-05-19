@@ -1,3 +1,4 @@
+'''
 from tensorflow import keras
 from loaderCIFAR10 import load
 import numpy as np
@@ -105,3 +106,7 @@ if __name__ == "__main__":
     #    final_sparsity=0.5, 
     #    begin_step=0, 
     #    end_step=1000)
+
+
+'''
+pass
