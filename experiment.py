@@ -64,8 +64,7 @@ def save_model_tensorRT(model_path : str, output_dir : str) -> str :
     # Save the model to the disk 
     converter.save(output_saved_model_dir=OUTPUT_DIR)
 
-    model_name = model_path.split("/")[-1]
-    return f"{output_dir}/{model_name}"
+    return 
 
 # accuracy test
 
