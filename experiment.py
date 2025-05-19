@@ -43,14 +43,13 @@ def load():
 
 
 def save_model_tensorRT(model_path : str, output_dir : str) -> str :
-    conversion_params = trt.TrtConversionParams(
-        precision_mode=trt.TrtPrecisionMode.FP32
-        )
+
 
     converter = trt.TrtGraphConverterV2(
-        input_saved_model_dir="models",
-        conversion_params=conversion_params
+        input_saved_model_dir="./models",
+        precision_mode=trt.TrtPrecisionMode.FP32
         )
+    
 
     # Converter method used to partition and optimize TensorRT compatible segments
     def calibration():
