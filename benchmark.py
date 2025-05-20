@@ -68,7 +68,7 @@ def benchmark(model_path : str, dataset : tf.data.Dataset, batch : int = 32):
 
 def benchmark_trt(model_path: str, dataset: tf.data.Dataset, batch: int = 32):
 
-    dataset = dataset.batch(batch).take(1)
+    dataset = dataset.batch(batch).take(780)
  
     trt_model = tf.saved_model.load(model_path)
     infer_fn = trt_model.signatures['serving_default']
