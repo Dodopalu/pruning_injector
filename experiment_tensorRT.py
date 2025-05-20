@@ -14,5 +14,5 @@ resnet44 = "./models_tensorRT/CIFAR10/ResNet44"
 train, test = load()
 dataset = test
 
-benchmark_trt(densenet121, dataset, batch=32)
+benchmark_trt(densenet121, dataset, batch=64)
 
