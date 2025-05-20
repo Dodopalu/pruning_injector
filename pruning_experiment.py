@@ -26,3 +26,23 @@ dataset = train
 benchmark_trt(densenet121, dataset, batch=64)
 benchmark_trt(densenet121_tensorRT, dataset, batch=64)
 
+
+
+BASE = "./models_pd/CIFAR10/DenseNet121"
+PRUNED = "./models_pd/CIFAR10/structural_2_4"
+
+convert_to_TensorRT(
+    BASE, 
+    "./models_tensorRT"
+    )
+
+convert_to_TensorRT(
+    PRUNED, 
+    "./models_tensorRT"
+    )
+
+BASE_trt = "./models_tensorRT/CIFAR10/DenseNet121"
+PRUNED_trt = "./models_tensorRT/CIFAR10/structural_2_4"
+
+benchmark_trt(BASE_trt, dataset, batch=64)
+benchmark_trt(PRUNED_trt, dataset, batch=64)

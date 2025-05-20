@@ -18,7 +18,7 @@ def convert_to_TensorRT(pd_model_path : str, output_saved_model_dir : str) -> st
 
     converter = trt.TrtGraphConverterV2(
         input_saved_model_dir=pd_model_path,
-        precision_mode=trt.TrtPrecisionMode.FP32
+        precision_mode=trt.TrtPrecisionMode.FP16
     )
     converter.convert()
     converter.save(SAVE_PATH)
