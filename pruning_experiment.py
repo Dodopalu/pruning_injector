@@ -8,12 +8,12 @@ from convert_to_TensorRT import convert_to_TensorRT
 densenet121 = "./models_tensorRT/CIFAR10/DenseNet121"
 densenet121_BASE = "./models/CIFAR10/densenet/DenseNet121.keras"
 
-densenet_STRUCTURAL_2_4 = structural_pruning(densenet121_BASE, "./models_pd/CIFAR10", "structural_2_4", (2, 4))
+#densenet_STRUCTURAL_2_4 = structural_pruning(densenet121_BASE, "./models_pd/CIFAR10", "structural_2_4", (2, 4))
 
 model = keras.models.load_model(densenet_STRUCTURAL_2_4)
 model.save("./models_pd/CIFAR10/structural_2_4.keras")
 convert_to_TensorRT(
-    "./models_pd/CIFAR10/structural_2_4.keras", 
+    "./models_pd/CIFAR10/structural_2_4", 
     "./models_tensorRT"
     )
 
