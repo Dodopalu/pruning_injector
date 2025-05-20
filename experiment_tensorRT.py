@@ -1,5 +1,5 @@
 import keras
-from benchmark import benchmark_trt
+from benchmark import benchmark_trt, benchmark
 from loaderCIFAR10 import load
 
 
@@ -14,5 +14,7 @@ resnet44 = "./models_tensorRT/CIFAR10/ResNet44"
 train, test = load()
 dataset = test
 
+
+benchmark(densenet121, dataset, batch=32)
 benchmark_trt(densenet121, dataset, batch=32)
 
