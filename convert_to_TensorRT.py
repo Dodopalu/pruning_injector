@@ -34,9 +34,9 @@ if __name__ == "__main__":
     resnet44 = "./models_pd/CIFAR10/ResNet44"
 
     convert_to_TensorRT(densenet121, "./models_tensorRT")
-    convert_to_TensorRT(googlenet, "./models_tensorRT")
-    convert_to_TensorRT(mobilenet, "./models_tensorRT")
-    convert_to_TensorRT(resnet20, "./models_tensorRT")
-    convert_to_TensorRT(resnet44, "./models_tensorRT")
+    #convert_to_TensorRT(googlenet, "./models_tensorRT")
+    #convert_to_TensorRT(mobilenet, "./models_tensorRT")
+    #convert_to_TensorRT(resnet20, "./models_tensorRT")
+    #convert_to_TensorRT(resnet44, "./models_tensorRT")
     
-    
+
