@@ -10,7 +10,8 @@ densenet121_BASE = "./models/CIFAR10/densenet/DenseNet121.keras"
 
 #densenet_STRUCTURAL_2_4 = structural_pruning(densenet121_BASE, "./models_pd/CIFAR10", "structural_2_4", (2, 4))
 
-model = keras.models.load_model(densenet_STRUCTURAL_2_4)
+structural = "./models_pd/CIFAR10/structural_2_4.keras"
+model = keras.models.load_model(structural)
 model.save("./models_pd/CIFAR10/structural_2_4.keras")
 convert_to_TensorRT(
     "./models_pd/CIFAR10/structural_2_4", 
