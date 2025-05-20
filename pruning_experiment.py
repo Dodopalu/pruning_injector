@@ -18,7 +18,7 @@ convert_to_TensorRT(
     "./models_tensorRT"
     )
 
-densenet121_tensorRT = "./models_tensorRT/structural_2_4"
+densenet121_tensorRT = "./models_tensorRT/CIFAR10/structural_2_4"
 
 train, test = load()
 dataset = train
