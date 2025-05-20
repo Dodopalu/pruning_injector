@@ -68,13 +68,13 @@ def benchmark(model_path : str, dataset : tf.data.Dataset, batch : int = 32):
 
 def benchmark_trt(model_path: str, dataset: tf.data.Dataset, batch: int = 32):
 
-    #dataset = dataset.batch(1)
-    dataset = dataset 
+    dataset = dataset.batch(batch)
  
     trt_model = tf.saved_model.load(model_path)
     infer_fn = trt_model.signatures['serving_default']
     input_name = list(infer_fn.structured_input_signature[1].keys())[0]
-   
+
+    print(f"input name: {input_name}")
     
     gpu_dataset = []
     for img, labels in dataset:
@@ -88,7 +88,8 @@ def benchmark_trt(model_path: str, dataset: tf.data.Dataset, batch: int = 32):
     # Warm-up 
     for i, batch in enumerate(gpu_dataset):
         if i < 10:
-            _ = infer_fn(**{input_name: batch})
+            #_ = infer_fn(**{input_name: batch})
+            _ = infer_fn(batch)
     
     # Sync
     if physical_devices:
