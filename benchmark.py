@@ -88,8 +88,7 @@ def benchmark_trt(model_path: str, dataset: tf.data.Dataset, batch: int = 32):
     # Warm-up 
     for i, batch in enumerate(gpu_dataset):
         if i < 10:
-            #_ = infer_fn(**{input_name: batch})
-            _ = infer_fn(batch)
+            _ = infer_fn(**{input_name: batch})
     
     # Sync
     if physical_devices:
