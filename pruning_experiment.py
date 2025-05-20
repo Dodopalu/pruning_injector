@@ -12,7 +12,7 @@ densenet121_BASE = "./models/CIFAR10/densenet/DenseNet121.keras"
 
 structural = "./models_pd/CIFAR10/structural_2_4.keras"
 model = keras.models.load_model(structural)
-model.save("./models_pd/CIFAR10/structural_2_4.keras")
+model.save("./models_pd/CIFAR10/structural_2_4")
 convert_to_TensorRT(
     "./models_pd/CIFAR10/structural_2_4", 
     "./models_tensorRT"
