@@ -1,7 +1,7 @@
 import keras
 from benchmark import benchmark_trt, benchmark
-from loaderCIFAR10 import load
-from pruning_structural import structural_pruning
+from datasets.loaderCIFAR10 import load
+from pruning.pruning_structural import structural_pruning
 from convert_to_TensorRT import convert_to_TensorRT
 
 train, test = load()

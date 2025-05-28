@@ -17,55 +17,6 @@ from datasets.loaderCIFAR10 import load
 100 inferences on a 32 batch dataset
 """
 
-def benchmark(model_path : str, dataset : tf.data.Dataset, batch : int = 32):
-
-    dataset = dataset.batch(batch)
-
-    model = keras.models.load_model(model_path)
-    model.compile(
-        optimizer='adam',
-        loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=['accuracy']
-        )
-
-
-    # Precaricamento dati nella GPU
-    gpu_dataset = []
-    for img, labels in dataset:
-        x = img # take input not labels
-        x_gpu = tf.convert_to_tensor(x, dtype=tf.float32)
-        if physical_devices:
-            with tf.device('/GPU:0'):
-                x_gpu = tf.identity(x_gpu)
-        gpu_dataset.append(x_gpu)
-
-    #gpu_dataset = test_dataset.map(lambda x, y: x) # not to send to GPU
-
-    # Warm-up 
-    for i, batch in enumerate(gpu_dataset):
-        if i < 10:
-            _ = model.predict(batch, verbose=0)
-
-    # Sync
-    if physical_devices:
-        _ = tf.random.normal([1])
-
-    print("Starting 100 inferences...")
-
-    start_time = time.time()
-
-    for batch in gpu_dataset:
-        _ = model.predict(batch, verbose=0)
-        
-    end_time = time.time()
-
-    # results
-    total_time = end_time - start_time
-    print(f"\n===== RESULT =====")
-    print(f"Total time: {total_time:.4f} s")
-    print("====================")
-
-
 def benchmark_trt(model_path: str, dataset: tf.data.Dataset, batch: int = 32):
 
     dataset = dataset.batch(batch).take(780)

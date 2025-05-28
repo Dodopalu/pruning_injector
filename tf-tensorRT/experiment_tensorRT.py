@@ -1,6 +1,6 @@
 import keras
-from benchmark import benchmark_trt, benchmark
-from loaderCIFAR10 import load
+from benchmark_trt import benchmark_trt
+from datasets.loaderCIFAR10 import load
 
 
 # CIFAR10 models
@@ -15,4 +15,5 @@ train, test = load()
 dataset = train
 
 benchmark_trt(densenet121, dataset, batch=64)
+benchmark_trt(googlenet, dataset, batch=64)
 
