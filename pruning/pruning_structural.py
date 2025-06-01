@@ -1,3 +1,8 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
 from tensorflow import keras
 from datasets.loaderCIFAR10 import load
 import numpy as np
@@ -87,11 +92,9 @@ def structural_pruning(PATH : str, OUTPUT_DIR : str, pruned_file_name : str, spa
 
 if __name__ == "__main__":
 
-    OUTPUT_DIR = "/Users/domenicopalumbo/keras_weight_injector_data/models/CIFAR10"
+    OUTPUT_DIR = ""
+    PATH = "./models/CIFAR10/densenet/DenseNet121.keras"
 
-    PATH = "/Users/domenicopalumbo/keras_weight_injector_data/models/CIFAR10/ResNet20.keras"
-
-    #structural_pruning(PATH, OUTPUT_DIR, "structural_2_4", (2, 4))
-
-    #structural_pruning(PATH, OUTPUT_DIR, "structural_5_7", (5, 7))
+    structural_pruning(PATH, OUTPUT_DIR, "structural_2_4", (2, 4))
+    structural_pruning(PATH, OUTPUT_DIR, "structural_5_7", (5, 7))
 
