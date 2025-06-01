@@ -102,9 +102,11 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
 #--------------------------------------------------------------------#
 def total_experiment():
-    name = "model" 
+    name = "DenseNet121" 
+    #name = "DenseNet121_structural_2_4"
+    #name = "DenseNet121_structural_5_7"
     engine_file = f"./{name}.plan"
-    onnx_path = f"/home/nikilr2/trt_tutorial/braggnn-pytorch/{name}.onnx"
+    onnx_path = f"/ONNX_tensorRT/{name}.onnx"
     batch_size = 64
     height = 32
     width = 32
@@ -146,9 +148,11 @@ def total_experiment():
     print(f"Inference time: {time:.4f} seconds")
 
 def build_and_save_engine():
-    name = "model" 
+    name = "DenseNet121" 
+    #name = "DenseNet121_structural_2_4"
+    #name = "DenseNet121_structural_5_7"
     engine_file = f"./{name}.plan"
-    onnx_path = f"/home/nikilr2/trt_tutorial/braggnn-pytorch/{name}.onnx"
+    onnx_path = f"/ONNX_tensorRT/{name}.onnx"
     batch_size = 64
     height = 32
     width = 32
@@ -167,7 +171,10 @@ def build_and_save_engine():
     print(shape)
 
 def load_and_infer():
-    engine_serialized = "./model.plan"
+    name = "DenseNet121"
+    #name = "DenseNet121_structural_2_4"
+    #name = "DenseNet121_structural_5_7"
+    engine_serialized = f"./{name}.plan"
 
     TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
     trt_runtime = trt.Runtime(TRT_LOGGER)
