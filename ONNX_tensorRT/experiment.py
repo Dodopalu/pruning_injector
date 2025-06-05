@@ -97,6 +97,27 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     time_1 = time.timestamp()
 
+
+    #evaluate output
+    res = []
+    for output_ptr in list_output_ptr:
+        output_data = np.empty((batch_size, 10), dtype=np.float32)
+        cuda.memcpy_dtoh(output_data, output_ptr)
+        res.append(output_data)
+    
+    print("INFO on output data")
+    print(f"Output shape: {res[0].shape}")
+    print(f"Output data: {res[0]}")
+    print(f"Output data type: {res[0].dtype}")
+    print(f"Output length: {len(res)}")
+
+    # save np array
+    saved = np.concatenate(res, axis=0)
+    name = time.strftime("%Y%m%d-%H%M%S")
+    print(f"Saving output data to {name}.npy")
+    np.save(f"{name}.npy", saved)
+
+
     return time_1 - time_0
 
 
