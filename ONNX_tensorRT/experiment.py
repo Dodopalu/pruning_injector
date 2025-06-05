@@ -147,7 +147,7 @@ def total_experiment():
 
 
     train, test = loaderCIFAR10()
-    dt = test
+    dt = test.take(100)
     input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64)
     print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
 
