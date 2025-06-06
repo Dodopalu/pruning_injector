@@ -1,6 +1,3 @@
-print("Starting TensorRT inference...")
-
-
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -45,5 +42,6 @@ output_ptr = cuda.mem_alloc(output.nbytes)
 bindings = [int(input_ptr), int(output_ptr)]
 
 
-with engine.create_execution_context() as context:
-    context.execute_v2(bindings=bindings)
+
+#with engine.create_execution_context() as context:
+#    context.execute_v2(bindings=bindings)
