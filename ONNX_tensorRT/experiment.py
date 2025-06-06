@@ -196,22 +196,25 @@ def total_experiment():
     input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, engine=engine)
     print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
 
-    warmup = inference(
-        engine=engine, 
-        list_input_ptr=input_ptr_list[:10], 
-        list_output_ptr=output_ptr_list[:10], 
-        batch_size=64
-    )
-    print(f"Warmup completed.")
+    with engine.create_execution_context() as context:
+        warmup = inference(
+            engine=engine, 
+            list_input_ptr=input_ptr_list[:10], 
+            list_output_ptr=output_ptr_list[:10], 
+            batch_size=64,
+            context=context
+        )
+        print(f"Warmup completed.")
 
-    print("Starting inference...")
-    time = inference(
-        engine=engine, 
-        list_input_ptr=input_ptr_list, 
-        list_output_ptr=output_ptr_list, 
-        batch_size=64
-    )
-    print(f"Inference time: {time:.4f} seconds")
+        print("Starting inference...")
+        time = inference(
+            engine=engine, 
+            list_input_ptr=input_ptr_list, 
+            list_output_ptr=output_ptr_list, 
+            batch_size=64,
+            context=context
+        )
+        print(f"Inference time: {time:.4f} seconds")
 
 def build_and_save_engine():
     name = "DenseNet121" 
