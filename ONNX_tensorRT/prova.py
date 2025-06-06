@@ -11,6 +11,6 @@ print(test.nbytes)
 
 
 input_ptr = cuda.mem_alloc(test.nbytes)
-#cuda.memcpy_htod(input_ptr, test)
+cuda.memcpy_htod(input_ptr, test)
 
 
