@@ -129,6 +129,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     for input_ptr, output_ptr in zip(list_input_ptr, list_output_ptr):
 
+        print(f"Input pointer: {input_ptr}, Output pointer: {output_ptr}")
         context.execute(
             batch_size, 
             bindings=[int(input_ptr), int(output_ptr)]
