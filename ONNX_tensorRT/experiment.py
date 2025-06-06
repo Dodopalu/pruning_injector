@@ -8,6 +8,7 @@ import tensorflow as tf
 import time
 import numpy as np
 import pycuda.driver as cuda
+import pycuda.autoinit
 from onnx import ModelProto
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
@@ -249,6 +250,10 @@ def load_and_infer():
         dt = test
 
         input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, context=context)
+
+
+
+
         print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
 
         warmup = inference(
