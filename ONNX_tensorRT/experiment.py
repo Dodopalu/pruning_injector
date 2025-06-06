@@ -260,6 +260,7 @@ def load_and_infer():
             list_input_ptr=input_ptr_list[:10], 
             list_output_ptr=output_ptr_list[:10], 
             batch_size=64
+            context=context
         )
         print(f"Warmup completed.")
 
@@ -269,6 +270,7 @@ def load_and_infer():
             list_input_ptr=input_ptr_list, 
             list_output_ptr=output_ptr_list, 
             batch_size=64
+            context=context
         )
         print(f"Inference time: {time:.4f} seconds")
 
