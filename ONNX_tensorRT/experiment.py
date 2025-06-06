@@ -119,6 +119,9 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[l
 
     output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
 
+    for i in range(len(output_gpu_ptrs)):
+        output_gpu_ptrs[i] = cuda.mem_alloc(output_gpu_ptrs[i].nbytes)
+
     return input_gpu_ptrs, output_gpu_ptrs
 
 def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr : list, batch_size : int, context):
@@ -136,7 +139,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
         binding.append(list_output_ptr[i])
 
         context.execute(
-            batch_size, 
+            batch_size=batch_size, 
             bindings=binding
             )
 
