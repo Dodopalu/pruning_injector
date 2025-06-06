@@ -58,7 +58,7 @@ def load_engine(trt_runtime, plan_path) -> trt.ICudaEngine:
    return engine
 
 def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int) -> tuple[list, list]:
-    dt = test.batch(64)
+    dt = dt.batch(64)
     dt_np = list(dt.as_numpy_iterator()) # (data, label), (data, label)...
 
 
@@ -127,7 +127,7 @@ def total_experiment():
     #name = "DenseNet121_structural_2_4"
     #name = "DenseNet121_structural_5_7"
     engine_file = f"./{name}.plan"
-    onnx_path = f"/ONNX_tensorRT/{name}.onnx"
+    onnx_path = f"ONNX_tensorRT/{name}.onnx"
     batch_size = 64
     height = 32
     width = 32
@@ -173,7 +173,7 @@ def build_and_save_engine():
     #name = "DenseNet121_structural_2_4"
     #name = "DenseNet121_structural_5_7"
     engine_file = f"./{name}.plan"
-    onnx_path = f"/ONNX_tensorRT/{name}.onnx"
+    onnx_path = f"ONNX_tensorRT/{name}.onnx"
     batch_size = 64
     height = 32
     width = 32
