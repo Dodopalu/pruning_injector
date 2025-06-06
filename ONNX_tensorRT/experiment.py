@@ -141,6 +141,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
         context.execute_v2(
             bindings=binding
             )
+        print(f"Executed inference for batch {i+1}/{len(list_input_ptr)}")
 
     time_1 = time.localtime()
 
