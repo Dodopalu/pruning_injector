@@ -191,12 +191,16 @@ def total_experiment():
     print(shape)
 
 
-    train, test = load()
-    dt = test
-    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, engine=engine)
-    print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
+
 
     with engine.create_execution_context() as context:
+
+
+        train, test = load()
+        dt = test
+        input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, context=context)
+        print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
+
         warmup = inference(
             engine=engine, 
             list_input_ptr=input_ptr_list[:10], 
