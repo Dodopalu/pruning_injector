@@ -116,7 +116,7 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[l
         cuda.memcpy_htod(ptr, input_linearized[i])
         input_gpu_ptrs.append(ptr)
 
-    print(f"\n\n input_gpu_ptrs: {input_gpu_ptrs[0]}\n\n")
+    print(f"\n\n input_gpu_ptrs: {int(input_gpu_ptrs[0])}\n\n")
 
     output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
 
