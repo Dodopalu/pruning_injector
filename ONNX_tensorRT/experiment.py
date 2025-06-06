@@ -122,7 +122,7 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, engine) -> tuple[li
 
         return input_gpu_ptrs, output_gpu_ptrs
 
-def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr : list, batch_size : int):
+def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr : list, batch_size : int, context):
     
     if len(list_input_ptr) != len(list_output_ptr):
         raise ValueError("Number of input pointers does not match the engine's input count.")
@@ -131,7 +131,6 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     for input_ptr, output_ptr in zip(list_input_ptr, list_output_ptr):
 
-        context = engine.create_execution_context()
         context.execute(
             batch_size, 
             bindings=[int(input_ptr), int(output_ptr)]
@@ -245,29 +244,32 @@ def load_and_infer():
     trt_runtime = trt.Runtime(TRT_LOGGER)
     engine = load_engine(trt_runtime, engine_serialized)
 
-    train, test = load()
-    dt = test
 
-    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, engine=engine)
-    print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
+    with engine.create_execution_context() as context:
 
-    warmup = inference(
-        engine=engine, 
-        list_input_ptr=input_ptr_list[:10], 
-        list_output_ptr=output_ptr_list[:10], 
-        batch_size=64
-    )
-    print(f"Warmup completed.")
+        train, test = load()
+        dt = test
 
-    print("Starting inference...")
-    time = inference(
-        engine=engine, 
-        list_input_ptr=input_ptr_list, 
-        list_output_ptr=output_ptr_list, 
-        batch_size=64
-    )
-    print(f"Inference time: {time:.4f} seconds")
+        input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, context=context)
+        print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
+
+        warmup = inference(
+            engine=engine, 
+            list_input_ptr=input_ptr_list[:10], 
+            list_output_ptr=output_ptr_list[:10], 
+            batch_size=64
+        )
+        print(f"Warmup completed.")
+
+        print("Starting inference...")
+        time = inference(
+            engine=engine, 
+            list_input_ptr=input_ptr_list, 
+            list_output_ptr=output_ptr_list, 
+            batch_size=64
+        )
+        print(f"Inference time: {time:.4f} seconds")
 
 
-total_experiment()
+        total_experiment()
 
