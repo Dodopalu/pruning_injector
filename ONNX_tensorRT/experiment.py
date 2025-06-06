@@ -96,7 +96,7 @@ def load_engine(trt_runtime, plan_path) -> trt.ICudaEngine:
    engine = trt_runtime.deserialize_cuda_engine(engine_data)
    return engine
 
-def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int) -> tuple[list, list]:
+def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, engine) -> tuple[list, list]:
     dt = dt.batch(64)
     dt_np = list(dt.as_numpy_iterator()) # (data, label), (data, label)...
 
@@ -109,15 +109,18 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int) -> tuple[list, list
         labels.append(label)
 
     # allocate dataset in GPU
-    input_gpu_ptrs = []
-    for i in range(len(input_linearized)):
-        ptr = cuda.mem_alloc(input_linearized[i].nbytes)
-        cuda.memcpy_htod(ptr, input_linearized[i])
-        input_gpu_ptrs.append(ptr)
 
-    output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
+    with engine.create_execution_context() as context:
 
-    return input_gpu_ptrs, output_gpu_ptrs
+        input_gpu_ptrs = []
+        for i in range(len(input_linearized)):
+            ptr = cuda.mem_alloc(input_linearized[i].nbytes)
+            cuda.memcpy_htod(ptr, input_linearized[i])
+            input_gpu_ptrs.append(ptr)
+
+        output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
+
+        return input_gpu_ptrs, output_gpu_ptrs
 
 def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr : list, batch_size : int):
     
@@ -245,7 +248,7 @@ def load_and_infer():
     train, test = load()
     dt = test
 
-    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64)
+    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, engine=engine)
     print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
 
     warmup = inference(
