@@ -128,13 +128,16 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     time_0 = time.localtime()
 
-    print("PTR")
-    print(int(list_input_ptr[0]))
 
     for i in range(len(list_input_ptr)):
+
+        binding = list()
+        binding.append(list_input_ptr[i])
+        binding.append(list_output_ptr[i])
+
         context.execute(
             batch_size, 
-            bindings=[int(list_input_ptr[i]), int(list_output_ptr[i])]
+            bindings=binding
             )
 
     time_1 = time.localtime()
