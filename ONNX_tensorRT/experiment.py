@@ -125,7 +125,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
     if len(list_input_ptr) != len(list_output_ptr):
         raise ValueError("Number of input pointers does not match the engine's input count.")
 
-    time_0 = time.timestamp()
+    time_0 = time.localtime()
 
     for input_ptr, output_ptr in zip(list_input_ptr, list_output_ptr):
 
@@ -134,7 +134,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
             bindings=[int(input_ptr), int(output_ptr)]
             )
 
-    time_1 = time.timestamp()
+    time_1 = time.localtime()
 
 
     #evaluate output
@@ -156,8 +156,10 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
     print(f"Saving output data to {name}.npy")
     np.save(f"{name}.npy", saved)
 
+    timestamp0 = time.mktime(time_0)
+    timestamp1 = time.mktime(time_1)
 
-    return time_1 - time_0
+    return timestamp1 - timestamp0
 
 
 #--------------------------------------------------------------------#
