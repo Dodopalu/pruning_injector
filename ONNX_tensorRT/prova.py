@@ -32,6 +32,7 @@ for element in test:
 print(test.shape)  # Should be (64, 32, 32, 3)
 print(test.dtype)  # Should be float32
 
+test = np.zeros((64,32,32,3))  # Reshape to (batch_size, channels, height, width)
 
 
 input_ptr = cuda.mem_alloc(test.nbytes)
