@@ -99,6 +99,7 @@ def load_engine(trt_runtime, plan_path) -> trt.ICudaEngine:
 
 def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[list, list]:
     dt = dt.batch(64)
+    gt = dt.take(10)
     dt_np = list(dt.as_numpy_iterator()) # (data, label), (data, label)...
 
 
@@ -254,7 +255,7 @@ def load_and_infer():
     with engine.create_execution_context() as context:
 
         train, test = load()
-        dt = test.take(20)
+        dt = test
 
         input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, context=context)
 
