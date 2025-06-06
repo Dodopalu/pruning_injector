@@ -192,7 +192,7 @@ def total_experiment():
 
     train, test = load()
     dt = test.take(100)
-    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64)
+    input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, engine=engine)
     print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
 
     warmup = inference(
