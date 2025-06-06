@@ -14,29 +14,12 @@ from onnx import ModelProto
 from experiment import load, load_engine
 
 
-train, test = load()
-print("Datasets loaded")
-
-#TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
-#trt_runtime = trt.Runtime(TRT_LOGGER)
-#engine = load_engine(trt_runtime, "DenseNet121.plan")
-
-print("Engine loaded")
-
-test = test.batch(64).take(1)
-
-for element in test:
-    test = element[0].numpy()
-
-
-print(test.shape)  # Should be (64, 32, 32, 3)
-print(test.dtype)  # Should be float32
-
 test = np.zeros((64,32,32,3))  # Reshape to (batch_size, channels, height, width)
+print(test.nbytes)
 
 
-input_ptr = cuda.mem_alloc(test.nbytes)
-cuda.memcpy_htod(input_ptr, test)
+#input_ptr = cuda.mem_alloc(test.nbytes)
+#cuda.memcpy_htod(input_ptr, test)
 
 
 
