@@ -25,10 +25,9 @@ print("Engine loaded")
 
 test = test.batch(64).take(1)
 
-# linearize 
-test = test.as_numpy_iterator()[0]
-test = test.ravel()
-test = test.astype(np.float32)
+for element in test:
+    test = element[0].numpy()
+
 
 print(test.shape)  # Should be (64, 32, 32, 3)
 print(test.dtype)  # Should be float32
