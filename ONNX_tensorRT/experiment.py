@@ -244,7 +244,7 @@ def load_and_infer():
     name = "DenseNet121"
     #name = "DenseNet121_structural_2_4"
     #name = "DenseNet121_structural_5_7"
-    engine_serialized = f"./{name}.plan"
+    engine_serialized = f"{name}.plan"
 
     TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
     trt_runtime = trt.Runtime(TRT_LOGGER)
@@ -254,7 +254,7 @@ def load_and_infer():
     with engine.create_execution_context() as context:
 
         train, test = load()
-        dt = test
+        dt = test.take(20)
 
         input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64, context=context)
 
@@ -265,8 +265,8 @@ def load_and_infer():
 
         warmup = inference(
             engine=engine, 
-            list_input_ptr=input_ptr_list, 
-            list_output_ptr=output_ptr_list, 
+            list_input_ptr=input_ptr_list[:10], 
+            list_output_ptr=output_ptr_list[:10], 
             batch_size=64,
             context=context
         )
