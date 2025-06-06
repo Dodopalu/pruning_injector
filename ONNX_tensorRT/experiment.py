@@ -135,6 +135,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
     for i in range(len(list_input_ptr)):
 
         bindings = [int(list_input_ptr[i]), int(list_output_ptr[i])]
+
         context.execute_v2(
             bindings=bindings
             )
@@ -264,8 +265,8 @@ def load_and_infer():
 
         warmup = inference(
             engine=engine, 
-            list_input_ptr=input_ptr_list[:10], 
-            list_output_ptr=output_ptr_list[:10], 
+            list_input_ptr=input_ptr_list, 
+            list_output_ptr=output_ptr_list, 
             batch_size=64,
             context=context
         )
@@ -279,7 +280,7 @@ def load_and_infer():
             batch_size=64,
             context=context
         )
-        print(f"Inference time: {time:.4f} seconds")
+        print(f"Inference time: {time} seconds")
 
 
 load_and_infer()
