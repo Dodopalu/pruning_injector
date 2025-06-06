@@ -187,8 +187,7 @@ def total_experiment():
 
     shape = [batch_size , height, width, 3]
     engine = build_engine(onnx_path, shape= shape, max_batch_size=batch_size)
-    save_engine(engine, engine_file)
-    print(shape)
+    ##save_engine(engine, engine_file)
 
 
 

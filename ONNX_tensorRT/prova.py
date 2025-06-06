@@ -14,20 +14,10 @@ input_ptr = cuda.mem_alloc(test.nbytes)
 cuda.memcpy_htod(input_ptr, test)
 
 
-import tensorrt as trt
+out = None
+cuda.memcpy_dtoh(input_ptr, out)
 
-def load_engine(trt_runtime, plan_path) -> trt.ICudaEngine:
-   with open(plan_path, 'rb') as f:
-       engine_data = f.read()
-   engine = trt_runtime.deserialize_cuda_engine(engine_data)
-   return engine
-
-
-TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
-trt_runtime = trt.Runtime(TRT_LOGGER)
-engine = load_engine(trt_runtime, "DenseNet121.plan")
-
-#engine = load_engine(trt_runtime, "DenseNet121.plan")
+print(out.shape)
 
 
 
