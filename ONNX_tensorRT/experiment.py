@@ -51,11 +51,6 @@ def load() -> tuple[tf.data.Dataset, tf.data.Dataset]:
 
     return train_dataser, validation_dataset
 
-
-
-
-
-
 def build_engine(onnx_path, shape, max_batch_size=64) -> trt.ICudaEngine:
 
    """
@@ -118,7 +113,7 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[l
         input_gpu_ptrs.append(ptr)
 
 
-    output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
+    output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32).ravel()] * len(input_gpu_ptrs)
 
     for i in range(len(output_gpu_ptrs)):
         output_gpu_ptrs[i] = cuda.mem_alloc(output_gpu_ptrs[i].nbytes)
