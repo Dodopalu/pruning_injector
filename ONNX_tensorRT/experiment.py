@@ -128,7 +128,8 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     time_0 = time.localtime()
 
-    print
+    print("PTR")
+    print(int(list_input_ptr[0]))
 
     for i in range(len(list_input_ptr)):
         context.execute(
