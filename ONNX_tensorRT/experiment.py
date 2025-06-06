@@ -140,6 +140,8 @@ def total_experiment():
     d1 = model.graph.input[0].type.tensor_type.shape.dim[2].dim_value
     d2 = model.graph.input[0].type.tensor_type.shape.dim[3].dim_value
 
+    print(f"Input shape from ONNX: {d0}, {d1}, {d2}")
+
     shape = [batch_size , height, width, 3]
     engine = build_engine(onnx_path, shape= shape, max_batch_size=batch_size)
     save_engine(engine, engine_file)
