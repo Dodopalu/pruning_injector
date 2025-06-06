@@ -134,12 +134,9 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     for i in range(len(list_input_ptr)):
 
-        binding = list()
-        binding.append(int(list_input_ptr[i]))
-        binding.append(int(list_output_ptr[i]))
-
+        bindings = [int(list_input_ptr[i]), int(list_output_ptr[i])]
         context.execute_v2(
-            bindings=binding
+            bindings=bindings
             )
 
     time_1 = time.localtime()
