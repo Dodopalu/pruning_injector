@@ -15,11 +15,13 @@ from experiment import load, load_engine
 
 
 train, test = load()
+print("Datasets loaded")
 
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 trt_runtime = trt.Runtime(TRT_LOGGER)
 engine = load_engine(trt_runtime, "DenseNet121.plan")
 
+print("Engine loaded")
 
 test = test.batch(64).take(1)
 
