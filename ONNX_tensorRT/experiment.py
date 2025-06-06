@@ -116,7 +116,6 @@ def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[l
         cuda.memcpy_htod(ptr, input_linearized[i])
         input_gpu_ptrs.append(ptr)
 
-    print(f"\n\n input_gpu_ptrs: {int(input_gpu_ptrs[0])}\n\n")
 
     output_gpu_ptrs = [np.zeros((batch_size, 10), dtype=np.float32)] * len(input_gpu_ptrs)
 
@@ -129,11 +128,12 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
 
     time_0 = time.localtime()
 
-    for input_ptr, output_ptr in zip(list_input_ptr, list_output_ptr):
+    print
 
+    for i in range(len(list_input_ptr)):
         context.execute(
             batch_size, 
-            bindings=[int(input_ptr), int(output_ptr)]
+            bindings=[int(list_input_ptr[i]), int(list_output_ptr[i])]
             )
 
     time_1 = time.localtime()
