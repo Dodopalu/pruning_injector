@@ -138,8 +138,7 @@ def inference(engine : trt.ICudaEngine , list_input_ptr : list, list_output_ptr 
         binding.append(list_input_ptr[i])
         binding.append(list_output_ptr[i])
 
-        context.execute(
-            batch_size=batch_size, 
+        context.execute_v2(
             bindings=binding
             )
 
