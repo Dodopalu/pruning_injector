@@ -3,7 +3,6 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from engine import load_engine
-from datasets.loaderCIFAR10 import loaderCIFAR10
 import tensorrt as trt
 import tensorflow as tf
 import time
@@ -14,6 +13,46 @@ from onnx import ModelProto
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 trt_runtime = trt.Runtime(TRT_LOGGER)
+
+
+
+'''
+Loading file for CIFAR10
+'''
+from tensorflow import keras
+import tensorflow as tf
+
+# to be loaded 
+def load() -> tuple[tf.data.Dataset, tf.data.Dataset]:
+
+    (train_images, train_labels), (test_images, test_labels) = keras.datasets.cifar10.load_data()
+
+
+    test_images = tf.data.Dataset.from_tensor_slices(test_images)
+    test_labels = tf.data.Dataset.from_tensor_slices(test_labels)
+    train_images = tf.data.Dataset.from_tensor_slices(train_images)
+    train_labels = tf.data.Dataset.from_tensor_slices(train_labels)
+
+    def preprocess_img(img : tf.Tensor) -> tf.Tensor:
+        mean = tf.constant([0.4914, 0.4822, 0.4465], dtype=tf.float32)
+        std = tf.constant([0.2023, 0.1994, 0.2010], dtype=tf.float32)
+
+        img = tf.image.convert_image_dtype(img, dtype=tf.float32)
+        img = (img - mean) / std
+        return img
+    
+    train_images = train_images.map(preprocess_img)
+    test_images = test_images.map(preprocess_img)
+
+    # trasform into tensor
+    train_dataser = tf.data.Dataset.zip((train_images, train_labels))
+    validation_dataset = tf.data.Dataset.zip((test_images, test_labels))
+
+    return train_dataser, validation_dataset
+
+
+
+
 
 
 def build_engine(onnx_path, shape, max_batch_size=64) -> trt.ICudaEngine:
@@ -148,7 +187,7 @@ def total_experiment():
     print(shape)
 
 
-    train, test = loaderCIFAR10()
+    train, test = load()
     dt = test.take(100)
     input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64)
     print(f"Loaded {len(input_ptr_list)} input tensors to GPU.")
@@ -203,7 +242,7 @@ def load_and_infer():
     trt_runtime = trt.Runtime(TRT_LOGGER)
     engine = load_engine(trt_runtime, engine_serialized)
 
-    train, test = loaderCIFAR10()
+    train, test = load()
     dt = test
 
     input_ptr_list, output_ptr_list = load_data_to_gpu(dt, batch_size=64)
