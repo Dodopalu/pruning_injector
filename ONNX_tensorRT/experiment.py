@@ -279,4 +279,4 @@ def load_and_infer():
         print(f"Inference time: {time} seconds")
 
 
-load_and_infer()
+#load_and_infer()
