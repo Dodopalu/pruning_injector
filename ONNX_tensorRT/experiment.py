@@ -94,7 +94,7 @@ def load_engine(trt_runtime, plan_path) -> trt.ICudaEngine:
 
 def load_data_to_gpu(dt : tf.data.Dataset, batch_size : int, context) -> tuple[list, list]:
     dt = dt.batch(64)
-    gt = dt.take(10)
+    dt = dt.take(10)
     dt_np = list(dt.as_numpy_iterator()) # (data, label), (data, label)...
 
 
