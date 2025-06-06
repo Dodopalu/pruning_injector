@@ -271,5 +271,4 @@ def load_and_infer():
         print(f"Inference time: {time:.4f} seconds")
 
 
-        total_experiment()
-
+load_and_infer()
