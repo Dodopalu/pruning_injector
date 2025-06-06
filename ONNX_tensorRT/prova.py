@@ -17,9 +17,9 @@ from experiment import load, load_engine
 train, test = load()
 print("Datasets loaded")
 
-TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
-trt_runtime = trt.Runtime(TRT_LOGGER)
-engine = load_engine(trt_runtime, "DenseNet121.plan")
+#TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+#trt_runtime = trt.Runtime(TRT_LOGGER)
+#engine = load_engine(trt_runtime, "DenseNet121.plan")
 
 print("Engine loaded")
 
@@ -32,10 +32,15 @@ test = test.ravel()
 print(test.shape)  # Should be (64, 32, 32, 3)
 print(test.dtype)  # Should be float32
 
+
+
 input_ptr = cuda.mem_alloc(test.nbytes)
 cuda.memcpy_htod(input_ptr, test)
 
-output = np.empty((64, 10), dtype=np.float32).ravel()
+
+
+
+#output = np.empty((64, 10), dtype=np.float32).ravel()
 
 #output_ptr = cuda.mem_alloc(output.nbytes)
 
