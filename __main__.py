@@ -13,9 +13,11 @@ regular.summary()
 pruned.summary()
 
 
+'''
+Select only convolutional and dense layers because they are the only ones that can be pruned.
+If layer is functional, we need to go into the functional layers and extract the underlying layers.
+'''
 
-# select only convolutional and dense layers beacausa are the only one that can be pruned
-# if layer is functional, we need to go into the functional layers and extrac the underlying layers
 def get_convolutional_and_dense_layers(model):
     layers = []
     for layer in model.layers:
@@ -25,12 +27,18 @@ def get_convolutional_and_dense_layers(model):
             layers.extend(get_convolutional_and_dense_layers(layer))
     return layers
 
-regular_layers = get_convolutional_and_dense_layers(regular)
-pruned_layers = get_convolutional_and_dense_layers(pruned)
+regular_layers = get_convolutional_and_dense_layers(regular) # list of layers in the regular model
+pruned_layers = get_convolutional_and_dense_layers(pruned) # list of layers in the pruned model
 
 
 # extract corresponding weights from regular and pruned models
 # (layer_name, weight_before_pruning, weight_after_pruning)
+
+'''
+Extract weights from the regular and pruned models.
+
+regular_layers, pruned_layers -> (layer_name, weight_before_pruning, weight_after_pruning)
+'''
 
 def extract_weights_comparison(regular_layers: list[keras.layers.Layer] , pruned_layers : list[keras.layers.Layer]):
     weight_comparison = []
@@ -54,7 +62,16 @@ weights_comparison = extract_weights_comparison(regular_layers, pruned_layers)
 
 
 
-# evaluate mask for pruned layers
+'''
+Evaluate the masks for each layer. Boolean numpy array where:
+- True means the weight was pruned (0 in pruned weights but not in regular weights)
+- False means the weight was not pruned (non-zero in both regular and pruned weights)
+
+(name, reg_weights, pruned_weights) -> (name, mask)
+
+doubious weights are those that are 0 in both regular and pruned weights.
+'''
+name_mask = []
 
 global doubious
 doubious = 0
@@ -78,18 +95,23 @@ def evaluate_mask(reg : np.ndarray, pruned : np.ndarray):
 
     
 # (name, reg, prun) -> (name, mask)
-name_mask = []
 for comp in weights_comparison:
     name, reg, prun = comp
     mask = evaluate_mask(reg, prun)
     name_mask.append((name, mask))
 
 
-print(f"Doubious weights: {doubious}") # fortunately 0
+print(f"Doubious weights: {doubious}") # fortunately 0 for ResNet20
 
 
+'''
+Evaluate the lists of pruned cordinates and not pruned coordinates for each layer.
+Computation of how mainy weights to inject in each layer based on the fault list dimension (FL_DIM).
+Injected weights in a layer are proportional to its size compared to the total weights in the model.
 
-# (name, mask) -> (name, pruned_cordinates, not_pruned_coordinates, number_of_weight_to_inect)
+(name, mask) -> (name, pruned_cordinates, not_pruned_coordinates, number_of_weight_to_inect)
+'''
+
 FL_DIM = 10000  # Fault List Dimension
 TOTAL_WEIGHTS = sum(mask.size for _, mask in name_mask)
 
@@ -115,9 +137,11 @@ for name, mask in name_mask:
     name_cordinates_toInject.append((name, pruned_cordinates, not_pruned_coordinates, LAYER_TO_INJECT))
 
 
+'''
+Generate the csv file of the fault lists for pruned and not pruned weights.
+Each entry in the fault list is a tuple (Injection, Layer, TensorIndex, Bit).
+'''
 
-# generate fault lists using the masks
-# (Injection, Layer, TensorIndex, Bit)
 import csv
 
 pruned_fl_file = open('pruned_fl.csv', 'w', newline='')
@@ -155,8 +179,6 @@ pruned_fl_file.close()
 not_pruned_fl_file.close()
 
 
-
-# TODO : refactor not dooing this two fl in parallel ??
 
 
 # istogram to visualize the percentage of layer to inject
